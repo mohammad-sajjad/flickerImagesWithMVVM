@@ -17,12 +17,13 @@ class SearchImagesViewModel : BaseViewModel() {
 
     fun getImages(stateMachine: StateMachine, query: String, page: Int = 0) {
         stateMachine.postValue(DataFetchState.Loading)
+        items.clear()
 
         if (query.isEmpty()) {
             stateMachine.postValue(DataFetchState.Error(StandardError("field can not be empty")))
             return
         }
-        val params = SearchImagesRequestParams("flickr.photos.search", "3189212285dcb4cf5b2f044edcb0544e", "json", query, "10", page.toString(), "url_l", "1")
+        val params = SearchImagesRequestParams("flickr.photos.search", "3189212285dcb4cf5b2f044edcb0544e", "json", query, "10", page.toString(), "url_l", "?")
 
         repository.getImages(params, object : ApiResponseCallBack<SearchImagesApiModel> {
             override fun onSuccess(response: SearchImagesApiModel) {

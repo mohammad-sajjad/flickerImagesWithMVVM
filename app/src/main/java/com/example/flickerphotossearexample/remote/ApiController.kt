@@ -6,17 +6,18 @@ import retrofit2.http.*
 
 interface ApiController {
 
-    @GET
+    @FormUrlEncoded
+    @POST
     fun getSearchImages(
-        @Url url: String,
-        @Query("method") method: String,
-        @Query("api_key") apiKey: String,
-        @Query("format") format: String,
-        @Query("tags") tag: String,
-        @Query("per_page") perPage: String,
-        @Query("page") page: String,
-        @Query("extras") extra: String,
-        @Query("nojsoncallback=1") callback: String
+            @Url url: String,
+            @Field("method") method: String,
+            @Field("api_key") apiKey: String,
+            @Field("format") format: String,
+            @Field("tags") tag: String,
+            @Field("per_page") perPage: String,
+            @Field("page") page: String,
+            @Field("extras") extra: String,
+            @Field("nojsoncallback") callback: String
 
     ): Call<SearchImagesApiModel>
 

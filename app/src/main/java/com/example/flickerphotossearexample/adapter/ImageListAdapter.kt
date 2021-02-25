@@ -11,6 +11,10 @@ import com.example.flickerphotossearexample.view.ImagesListDelegate
  */
 class ImageListAdapter: BaseAdapter() {
 
+    init {
+        initDelegates()
+    }
+
     override fun initDelegates() {
         delegates[CardConstants.IMAGES_ITEM_ADAPTER] = ImagesListDelegate()
     }
