@@ -9,7 +9,7 @@ import com.example.flickerphotossearexample.core.BaseViewHolder
  * Created by Mohammad sajjad on 24-02-2021.
  * mohammadsajjad679@gmail.com
  */
-class ImagesListDelegate : BaseDelegate() {
+class ImagesListDelegate(private val listener: ImagesListViewHolder.ImageItemClickListener) : BaseDelegate() {
 
-    override fun onCreateViewHolder(parent: ViewGroup) = ImagesListViewHolder(parent)
+    override fun onCreateViewHolder(parent: ViewGroup) = ImagesListViewHolder(parent, listener)
 }

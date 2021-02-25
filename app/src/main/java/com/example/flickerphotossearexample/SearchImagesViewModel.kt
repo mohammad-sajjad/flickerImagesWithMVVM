@@ -17,7 +17,6 @@ class SearchImagesViewModel : BaseViewModel() {
 
     fun getImages(stateMachine: StateMachine, query: String, page: Int = 0) {
         stateMachine.postValue(DataFetchState.Loading)
-        items.clear()
 
         if (query.isEmpty()) {
             stateMachine.postValue(DataFetchState.Error(StandardError("field can not be empty")))

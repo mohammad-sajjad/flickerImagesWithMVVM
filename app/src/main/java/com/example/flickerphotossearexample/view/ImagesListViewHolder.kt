@@ -16,7 +16,7 @@ import com.example.flickerphotossearexample.model.ImageListItems
  * Created by Mohammad sajjad on 24-02-2021.
  * mohammadsajjad679@gmail.com
  */
-class ImagesListViewHolder(parent: ViewGroup) : BaseViewHolder(parent.inflate(R.layout.images_list_item_layout)) {
+class ImagesListViewHolder(parent: ViewGroup, private val listener: ImageItemClickListener) : BaseViewHolder(parent.inflate(R.layout.images_list_item_layout)) {
 
     override fun bindView(item: RecyclerViewListItem) {
         item as ImageListItems
@@ -27,6 +27,13 @@ class ImagesListViewHolder(parent: ViewGroup) : BaseViewHolder(parent.inflate(R.
         Glide.with(itemView.context).load(item.imageUrl).into(image)
         titleTv.text = item.name
 
+        image.setOnClickListener {
+            listener.onImageClickListener(item.imageUrl)
+        }
 
+    }
+
+    interface ImageItemClickListener {
+        fun onImageClickListener(imageUrl: String)
     }
 }

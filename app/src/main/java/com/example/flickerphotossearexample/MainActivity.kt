@@ -1,5 +1,6 @@
 package com.example.flickerphotossearexample
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -14,18 +15,21 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.flickerphotossearexample.adapter.ImageListAdapter
 import com.example.flickerphotossearexample.common.DataFetchState
 import com.example.flickerphotossearexample.common.StateMachine
-import com.example.flickerphotossearexample.core.BaseIncrementalScrollListener
 import com.example.flickerphotossearexample.core.BaseViewModelFactory
+import com.example.flickerphotossearexample.core.PaginationScrollListener
+import com.example.flickerphotossearexample.view.ImagesListViewHolder
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), ImagesListViewHolder.ImageItemClickListener {
 
 
     private val factory = object : BaseViewModelFactory() {
         override fun createViewModel() = SearchImagesViewModel()
     }
     private val viewModel by viewModels<SearchImagesViewModel> { factory }
-    private val adapter by lazy { ImageListAdapter() }
+    private val adapter by lazy { ImageListAdapter(this) }
     private val stateMachine = StateMachine()
+    private val page = 0;
+    private var isLoading = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,14 +69,34 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        recyclerView.addOnScrollListener(object : BaseIncrementalScrollListener(LinearLayoutManager(this)) {
-            override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
-                viewModel.getImages(stateMachine, searchEt.text.toString(), page)
+        recyclerView.addOnScrollListener(object : PaginationScrollListener(LinearLayoutManager(this)) {
+//            override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
+//                viewModel.getImages(stateMachine, searchEt.text.toString(), page)
+//            }
 
+            override fun loadMoreItems() {
+                isLoading = true
+                viewModel.getImages(stateMachine, searchEt.text.toString(), page+1)
             }
 
+            override fun getTotalPageCount(): Int {
+                return viewModel.items.size
+            }
+
+            override fun isLastPage(): Boolean {
+                return false
+            }
+
+            override fun isLoading(): Boolean {
+                return isLoading
+            }
         })
+
     }
 
-
+    override fun onImageClickListener(imageUrl: String) {
+        val intent = Intent(this@MainActivity, ImageDetailActivity::class.java)
+        intent.putExtra("image", imageUrl)
+        startActivity(intent)
+    }
 }
