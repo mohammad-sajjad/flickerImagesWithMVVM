@@ -35,7 +35,6 @@
         android:id="@+id/image_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/images_list_item_layout"/>
 
 

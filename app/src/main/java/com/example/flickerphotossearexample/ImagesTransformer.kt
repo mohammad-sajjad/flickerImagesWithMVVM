@@ -12,7 +12,7 @@ object ImagesTransformer {
 
 
     fun getListItems(data: List<SearchImagesApiModel.Photos.Photo>): List<ImageListItems> {
-        return data.map { ImageListItems(it.urlL, it.title) }
+        return data.map { ImageListItems(it.urlL ?: "" , it.title) }
     }
 
 }
